@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
 
 // Scene setup
 const scene = new THREE.Scene();
@@ -41,6 +43,43 @@ controls.maxDistance = 20;
 controls.maxPolarAngle = Math.PI / 2; // Prevent going below the board
 controls.minPolarAngle = Math.PI / 6; // Prevent going too high
 controls.enablePan = true;
+
+// Add 3D Text for "Mine's Chess Game"
+function createGameTitle() {
+    const fontLoader = new FontLoader();
+    
+    fontLoader.load('https://threejs.org/examples/fonts/helvetiker_bold.typeface.json', function(font) {
+        const textGeometry = new TextGeometry("Mine's Chess Game", {
+            font: font,
+            size: 0.5,
+            height: 0.1,
+            curveSegments: 12,
+            bevelEnabled: true,
+            bevelThickness: 0.03,
+            bevelSize: 0.02,
+            bevelOffset: 0,
+            bevelSegments: 5
+        });
+        
+        textGeometry.computeBoundingBox();
+        const centerOffset = -0.5 * (textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x);
+        
+        const textMaterial = new THREE.MeshPhongMaterial({ 
+            color: 0xffd700, // Gold color
+            specular: 0xffffff,
+            shininess: 100
+        });
+        
+        const text = new THREE.Mesh(textGeometry, textMaterial);
+        text.position.set(centerOffset, 4, -4);
+        text.castShadow = true;
+        text.rotation.x = Math.PI / 12; // Slight tilt for better visibility
+        
+        scene.add(text);
+    });
+}
+
+createGameTitle();
 
 // Chess board setup
 const boardSize = 8;
