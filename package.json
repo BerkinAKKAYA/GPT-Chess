@@ -1,0 +1,16 @@
+{
+  "name": "chess-demo",
+  "version": "1.0.0",
+  "description": "A 3D chess game using Three.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "vite",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "three": "^0.162.0"
+  },
+  "devDependencies": {
+    "vite": "^5.1.4"
+  }
+}
